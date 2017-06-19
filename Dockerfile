@@ -10,6 +10,8 @@ RUN mkdir -p /home/LogFiles \
      && apt update \
      && apt install -y --no-install-recommends openssh-server
 
+RUN chmod 755 /opt/startup/init_container.sh
+
 EXPOSE 2222 8080
 
 ENV PORT 8080
