@@ -1,16 +1,15 @@
 FROM python:3.6
 MAINTAINER Laurent Mazuel<lmazuel@microsoft.com>
 
-COPY startup /opt/startup
-COPY hostingstart.html /home/site/wwwroot/hostingstart.html
+COPY init_container.sh /bin/
 COPY sshd_config /etc/ssh/
 
-RUN mkdir -p /home/LogFiles \
-     && echo "root:Docker!" | chpasswd \
-     && apt update \
-     && apt install -y --no-install-recommends openssh-server
+RUN apt-get update -qq \
+    && apt-get install -y nodejs openssh-server --no-install-recommends \
+    && echo "root:Docker!" | chpasswd
 
-RUN chmod 755 /opt/startup/init_container.sh
+RUN chmod 755 /bin/init_container.sh \
+  && mkdir -p /home/LogFiles
 
 EXPOSE 2222 8080
 
@@ -21,4 +20,4 @@ ENV PATH ${PATH}:/home/site/wwwroot
 
 WORKDIR /home/site/wwwroot
 
-ENTRYPOINT ["/opt/startup/init_container.sh"]
+ENTRYPOINT [ "/bin/init_container.sh" ]
