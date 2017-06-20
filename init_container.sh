@@ -7,3 +7,4 @@ echo "$(date) Container started" >> /home/LogFiles/python_${WEBSITE_ROLE_INSTANC
 # Should be outside
 
 pip install flask >> /home/LogFiles/python_${WEBSITE_ROLE_INSTANCE_ID}_out.log
+/home/site/wwwroot/app.py
